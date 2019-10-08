@@ -1,16 +1,25 @@
 import requests
-import bs4
+from bs4 import BeautifulSoup
+from urllib.request import urlopen as uReq
 import re
-r = requests.get('https://en.wikipedia.org/wiki/Thomas_Jefferson')
-type(r)
-soup = bs4.BeautifulSoup(r.text, 'html.parser')
-table = soup.find('table', {'class': 'infobox vcard'}).tbody
-line = str(table.text)
-for word in line:
-    for letter in word:
-        if letter is int or letter.upper():
-            print('\n')
-print(line)
-print("test")
 
+f = open("text.txt", "w")
+link = ("https://en.wikipedia.org/wiki/Thomas_Jefferson")
+uClient = uReq(link)
+page = uClient.read()
+soup = BeautifulSoup(page, 'html.parser')
+table = soup.find('table', class_='infobox vcard')
+full = ""
+for tr in table.find_all('tr') :
+    temp = tr.text
+    for i in range(0,len(temp)):
+        if i < len(temp)-1:
+            if temp[i].islower() and temp[i+1].isupper():
+                full+= temp[i] + ": "
+                continue
+        if i == (len(temp)-1):
+            full+= temp[i] + "\n"
+        else:
+            full+= temp[i]
 
+print(full)
