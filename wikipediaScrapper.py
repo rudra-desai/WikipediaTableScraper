@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen as uReq
 import re
 
-f = open("text.txt", "w")
 link = ("https://en.wikipedia.org/wiki/Thomas_Jefferson")
 uClient = uReq(link)
 page = uClient.read()
